@@ -16,17 +16,17 @@
 #[macro_use]
 extern crate libfuzzer_sys;
 extern crate exonum;
+extern crate exonum_merkledb;
 
-use exonum::messages::RawMessage;
+use exonum::messages::{CoreMessage, Precommit, SignedMessage, Verified};
+use exonum_merkledb::BinaryValue;
 
-fn fuzz_target(data: &[u8]) {
-    let msg = RawMessage::from_vec(data.to_vec());
+fn fuzz_target(data: &[u8]) -> Option<()> {
+    let msg = SignedMessage::from_bytes(data.into()).ok()?;
+    let _: Result<Verified<Precommit>, _> = msg.clone().into_verified();
+    let _: Result<Verified<CoreMessage>, _> = msg.into_verified();
 
-    let _ = msg.version();
-    let _ = msg.service_id();
-    let _ = msg.message_type();
-    let _ = msg.body();
-    let _ = msg.signature();
+    None
 }
 
 fuzz_target!(|data| {

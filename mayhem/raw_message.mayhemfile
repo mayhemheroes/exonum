@@ -1,0 +1,7 @@
+project: exonum
+target: raw-message
+
+cmds:
+  - cmd: /raw_message
+  - cmd: /raw_message_no_inst @@
+    libfuzzer: false

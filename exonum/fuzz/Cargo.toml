@@ -10,7 +10,14 @@ cargo-fuzz = true
 
 [dependencies]
 exonum = { path = ".." }
-libfuzzer-sys = { git = "https://github.com/rust-fuzz/libfuzzer-sys.git" }
+exonum-merkledb = { path = "../../components/merkledb/" }
+libfuzzer-sys = "0.4"
+
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = 1
 
 [[bin]]
 name = "raw_message"
